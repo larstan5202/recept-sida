@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Skapa nytt recept</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background: #4CAF50;
+            padding: 15px;
+            color: white;
+            font-size: 18px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 25px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            background: white;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .half {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 15px 25px;
+            font-size: 18px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Start</a>
+    <a href="alla-recept.html">Alla recept</a>
+    <a href="nytt-recept.html">Skapa nytt recept</a>
+</nav>
+
+<div class="container">
+    <h1>Skapa nytt recept</h1>
+
+    <label for="namn">Receptnamn</label>
+    <input id="namn" type="text">
+
+    <div class="form-row">
+        <div class="half">
+            <label for="ingredienser">Ingredienser</label>
+            <textarea id="ingredienser" rows="8"></textarea>
+        </div>
+
+        <div class="half">
+            <label for="beskrivning">Gör så här</label>
+            <textarea id="beskrivning" rows="8"></textarea>
+        </div>
+    </div>
+
+    <button onclick="sparaRecept()">Spara recept</button>
+</div>
+
+<script>
+function sparaRecept() {
+    const namn = document.getElementById("namn").value.trim();
+    const ingredienser = document.getElementById("ingredienser").value.trim();
+    const beskrivning = document.getElementById("beskrivning").value.trim();
+
+    if (!namn) {
+        alert("Du måste skriva ett receptnamn.");
+        return;
+    }
+
+    const recept = {
+        namn: namn,
+        ingredienser: ingredienser,
+        beskrivning: beskrivning
+    };
+
+    let lista = JSON.parse(localStorage.getItem("receptLista")) || [];
+    lista.push(recept);
+    localStorage.setItem("receptLista", JSON.stringify(lista));
+
+    alert("Receptet är sparat!");
+    window.location.href = "alla-recept.html";
+}
+</script>
+
+</body>
+</html>

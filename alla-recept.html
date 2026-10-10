@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Alla recept</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background: #f7f7f7;
+        }
+
+        nav {
+            background: #4CAF50;
+            padding: 15px;
+            color: white;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 25px;
+            font-weight: bold;
+        }
+
+        .recept {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .recept h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Start</a>
+    <a href="alla-recept.html">Alla recept</a>
+    <a href="nytt-recept.html">Skapa nytt recept</a>
+</nav>
+
+<h1>Alla sparade recept</h1>
+
+<div id="lista"></div>
+
+<script>
+    const lista = JSON.parse(localStorage.getItem("receptLista")) || [];
+    const container = document.getElementById("lista");
+
+    if (lista.length === 0) {
+        container.innerHTML = "<p>Inga recept sparade ännu.</p>";
+    } else {
+        lista.forEach((r) => {
+            container.innerHTML += `
+                <div class="recept">
+                    <h2>${r.namn}</h2>
+                    <p><strong>Ingredienser:</strong><br>${r.ingredienser.replace(/\n/g, "<br>")}</p>
+                    <p><strong>Gör så här:</strong><br>${r.beskrivning.replace(/\n/g, "<br>")}</p>
+                </div>
+            `;
+        });
+    }
+</script>
+
+</body>
+</html>
