@@ -50,16 +50,32 @@
 
 <h1>Alla sparade recept</h1>
 
+<!-- ⭐ Sökfältet -->
+<input type="text" id="sok" placeholder="Sök recept..."
+       style="width:100%; padding:12px; font-size:18px; margin-bottom:20px;">
+
 <div id="lista"></div>
 
 <script>
     const lista = JSON.parse(localStorage.getItem("receptLista")) || [];
     const container = document.getElementById("lista");
+    const sok = document.getElementById("sok");
 
-    if (lista.length === 0) {
-        container.innerHTML = "<p>Inga recept sparade ännu.</p>";
-    } else {
-        lista.forEach((r) => {
+    function visaRecept(filter = "") {
+        container.innerHTML = "";
+
+        const filtrerad = lista.filter(r =>
+            r.namn.toLowerCase().includes(filter) ||
+            r.ingredienser.toLowerCase().includes(filter) ||
+            r.beskrivning.toLowerCase().includes(filter)
+        );
+
+        if (filtrerad.length === 0) {
+            container.innerHTML = "<p>Inga recept matchar sökningen.</p>";
+            return;
+        }
+
+        filtrerad.forEach(r => {
             container.innerHTML += `
                 <div class="recept">
                     <h2>${r.namn}</h2>
@@ -69,6 +85,15 @@
             `;
         });
     }
+
+    // Visa alla recept vid start
+    visaRecept();
+
+    // Sökning i realtid
+    sok.addEventListener("input", () => {
+        const text = sok.value.toLowerCase();
+        visaRecept(text);
+    });
 </script>
 
 </body>
